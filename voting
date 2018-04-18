@@ -1,0 +1,83 @@
+<html>
+<head>
+<title> PU Elections </title>
+<style>
+body{
+	background-color: "#0000FF";
+	text-align: center;
+}
+h1{
+	color: rgb(0,0,255);
+}
+.displaybox{
+	color: rgb(0,0,255);	
+	margin: auto;
+	width: 150px;
+	border: 2px solid #000000;
+	padding: 10px;
+	align: center;
+	font: 1.5em normal verdana, helvetica, arial; 
+}
+</style>
+<script>
+	var ajaxobject=new XMLHttpRequest();
+	function getCandidateList() {
+	  if(!ajaxobject)
+	  {
+	  	document.getElementById("showcandidate").innerHTML="AJAX obejct could not be created";
+	  	return;
+	  }
+	  	  ajaxobject.open("GET","dbase.php");
+	  	  ajaxobject.send();
+	  	  ajaxobject.onreadystatechange=getResponse; 	
+	}
+	function getResponse(){
+		if(ajaxobject.readyState == 4 && ajaxobject.status == 200)
+		{
+			document.getElementById('showcandidate').innerHTML=ajaxobject.responseText;
+		}
+		else
+		{
+			document.getElementById('showcandidate').innerHTML= ajaxobject.readyState+ajaxobject.status+ajaxobject.statusText;
+		}
+
+	}
+	var count = 0;
+	function changeColor()
+	{
+		count++;
+		var col="red";
+		if(count%2==0)
+			col="lightgreen";
+		else
+			col="red";
+		document.getElementById('showcandidate').style.backgroundColor=col;
+	}
+	function makeItBold()
+	{
+		//document.getElementById('showcandidate').style.
+	}
+	function ajaxConfirm()
+	{
+		document.getElementById('selectedcandidate').innerHTML = document.getElementById("myform").elements['candidate'].value;
+	}
+</script>
+</head>
+	<body onload="">
+		<h1>List of Candidates for the post of CR</h1>
+		<h4>Getting the list from the server</h4>
+		<form>
+			<input type="button" value="List the candidates"onclick="getCandidateList()"/>
+			<input type="button" value="Change color"onclick="changeColor()"/>
+		</form>
+
+		<div id="showcandidate" class="displaybox">
+		</div>	
+		<form>
+			<input type="button" value="Submit" onclick="ajaxConfirm()">
+		</form>
+		<div id="selectedcandidate" class="displaybox">
+		</div>	
+		
+	</body>
+</html>
